@@ -8,5 +8,10 @@ crds:
       memory: "128Mi"
       cpu: "500m"
 
-images:
-  registry: quay.io
+dockerKubectl:
+  image: quay.io/giantswarm/docker-kubectl
+  tag: "1.23.6"
+
+snapshotController:
+  image: k8s.gcr.io/sig-storage/snapshot-controller
+  tag: v4.0.0
