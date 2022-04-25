@@ -1,0 +1,17 @@
+crds:
+  install: true
+  resources:
+    requests:
+      memory: "64Mi"
+      cpu: "250m"
+    limits:
+      memory: "128Mi"
+      cpu: "500m"
+
+dockerKubectl:
+  image: quay.io/giantswarm/docker-kubectl
+  tag: "1.23.6"
+
+snapshotController:
+  image: k8s.gcr.io/sig-storage/snapshot-controller
+  tag: v4.0.0
