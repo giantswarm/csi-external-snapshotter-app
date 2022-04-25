@@ -2,7 +2,7 @@
 
 # CSI External Snapshotter
 
-To be able to create volume snapshots with Cinder CSI, we need to install CRDs and snapshot controller. See
+To be able to create volume snapshots with any CSI, we need to install CRDs and a snapshot controller. See
 https://github.com/kubernetes/cloud-provider-openstack/blob/989d067f62c24338d3f41b295fd3510b76182fde/docs/cinder-csi-plugin/features.md#volume-snapshots
 
 
