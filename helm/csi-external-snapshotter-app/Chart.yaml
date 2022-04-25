@@ -1,7 +1,7 @@
 apiVersion: v1
 appVersion: latest
 description: CSI external snapshotter which deploys CRDs and controllers
-name: csi-external-snapshotter
+name: csi-external-snapshotter-app
 home: https://github.com/giantswarm/csi-external-snapshotter-app
 
 sources:
