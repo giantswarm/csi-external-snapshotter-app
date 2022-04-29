@@ -1,0 +1,46 @@
+# https://raw.githubusercontent.com/kubernetes-csi/external-snapshotter/release-5.0/deploy/kubernetes/webhook-example/admission-configuration-template
+{{- if .Values.validationWebhook.install }}
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: snapshot-webhook-issuer
+spec:
+  selfSigned: {}
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: snapshot-webhook
+spec:
+  secretName: snapshot-validation-secret
+  dnsNames:
+  - snapshot-validation-service.{{ .Release.Namespace }}.svc.cluster.local
+  - snapshot-validation-service.{{ .Release.Namespace }}.svc
+  issuerRef:
+    name: snapshot-webhook-issuer
+---
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingWebhookConfiguration
+metadata:
+  name: "validation-webhook.snapshot.storage.k8s.io"
+  annotations:
+    cert-manager.io/inject-ca-from: {{ .Release.Namespace }}/snapshot-webhook
+webhooks:
+- name: "validation-webhook.snapshot.storage.k8s.io"
+  rules:
+  - apiGroups:   ["snapshot.storage.k8s.io"]
+    apiVersions: ["v1", "v1beta1"]
+    operations:  ["CREATE", "UPDATE"]
+    resources:   ["volumesnapshots", "volumesnapshotcontents"]
+    scope:       "*"
+  clientConfig:
+    service:
+      namespace: {{ .Release.Namespace }}
+      name: "snapshot-validation-service"
+      path: "/volumesnapshot"
+      port: 443
+  admissionReviewVersions: ["v1", "v1beta1"]
+  sideEffects: None
+  failurePolicy: Fail
+  timeoutSeconds: 2
+{{- end }}
