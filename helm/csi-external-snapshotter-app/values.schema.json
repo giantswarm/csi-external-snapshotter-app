@@ -58,11 +58,26 @@
                     "type": "string"
                 }
             }
+        },
+        "validationWebhook": {
+            "type": "object",
+            "properties": {
+                "image": {
+                    "type": "string"
+                },
+                "install": {
+                    "type": "boolean"
+                },
+                "tag": {
+                    "type": "string"
+                }
+            }
         }
     },
     "required": [
         "crds",
         "dockerKubectl",
-        "snapshotController"
+        "snapshotController",
+        "validationWebhook"
     ]
 }
