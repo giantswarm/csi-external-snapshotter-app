@@ -1,0 +1,14 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: snapshot-validation-deployment
+spec:
+  replicas: 1
+  template:
+    spec:
+      containers:
+      - args:
+        - "--tls-cert-file=/etc/snapshot-validation-webhook/certs/tls.crt"
+        - "--tls-private-key-file=/etc/snapshot-validation-webhook/certs/tls.key"
+        - "--v=5"
+        name: snapshot-validation

@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: snapshot-validation
+  name: snapshot-validation-deployment
+  namespace: '{{ .Release.Namespace }}'
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: snapshot-validation
+  template:
+    metadata:
+      labels:
+        app: snapshot-validation
+    spec:
+      containers:
+      - args:
+        - --tls-cert-file=/etc/snapshot-validation-webhook/certs/tls.crt
+        - --tls-private-key-file=/etc/snapshot-validation-webhook/certs/tls.key
+        - --v=5
+        image: '{{.Values.validationWebhook.image}}:{{.Values.validationWebhook.tag}}'
+        imagePullPolicy: IfNotPresent
+        name: snapshot-validation
+        ports:
+        - containerPort: 443
+        volumeMounts:
+        - mountPath: /etc/snapshot-validation-webhook/certs
+          name: snapshot-validation-webhook-certs
+          readOnly: true
+      volumes:
+      - name: snapshot-validation-webhook-certs
+        secret:
+          secretName: snapshot-validation-secret

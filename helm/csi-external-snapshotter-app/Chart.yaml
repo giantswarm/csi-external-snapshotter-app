@@ -6,4 +6,4 @@ home: https://github.com/giantswarm/csi-external-snapshotter-app
 
 sources:
 - https://github.com/giantswarm/csi-external-snapshotter-app
-version: [[ .Version ]]
+version: 1.0.0

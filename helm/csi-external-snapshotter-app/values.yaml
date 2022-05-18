@@ -17,6 +17,5 @@ snapshotController:
   tag: v5.0.1
 
 validationWebhook:
-  install: true
   image: k8s.gcr.io/sig-storage/snapshot-validation-webhook
   tag: v5.0.1
