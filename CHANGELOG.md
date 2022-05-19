@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Update manifests with upstream `v5.0.1`.
+- Use `kustomize` for templating upstream manifests without manual editing.
 
 ## [0.1.0] - 2022-04-25
 

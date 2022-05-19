@@ -2,8 +2,6 @@
 
 SHELL := /bin/bash
 
-APPLICATION_NAME="csi-external-snapshotter-app"
-
 EXTERNAL_SNAPSHOTTER_VERSION="v5.0.1"
 
 .PHONY: all
@@ -12,7 +10,7 @@ all: fetch-upstream-manifest apply-kustomize-patches delete-generated-helm-chart
 .PHONY: release-manifests
 release-manifests: 
 	# move files from workdir over to helm directury structure
-	./hack/prepare-helmchart.sh ${APPLICATION_NAME}
+	./hack/prepare-helmchart.sh ${APPLICATION}
 
 .PHONY: fetch-upstream-manifest
 fetch-upstream-manifest: ## fetch upstream manifest from
@@ -25,5 +23,5 @@ apply-kustomize-patches: ## apply giantswarm specific patches
 
 #.PHONY: delete-generated-helm-charts
 delete-generated-helm-charts: # clean workspace and delete manifests
-	@rm -rvf ./helm/${APPLICATION_NAME}/templates/*.yaml
-	@rm -rvf ./helm/${APPLICATION_NAME}/crds/*.yaml
+	@rm -rvf ./helm/${APPLICATION}/templates/*.yaml
+	@rm -rvf ./helm/${APPLICATION}/crds/*.yaml

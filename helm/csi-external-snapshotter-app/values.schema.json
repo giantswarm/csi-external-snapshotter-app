@@ -65,9 +65,6 @@
                 "image": {
                     "type": "string"
                 },
-                "install": {
-                    "type": "boolean"
-                },
                 "tag": {
                     "type": "string"
                 }

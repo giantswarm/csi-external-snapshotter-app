@@ -5,6 +5,8 @@
 
 include Makefile.*.mk
 
+APPLICATION="csi-external-snapshotter-app"
+
 ##@ General
 
 # The help target prints out all targets with their descriptions organized
