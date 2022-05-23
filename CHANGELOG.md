@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.0] - 2022-05-23
+
 ### Added
 
 - Add validating webhook.
@@ -20,5 +22,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Initial implementation.
 
-[Unreleased]: https://github.com/giantswarm/csi-external-snapshotter-app/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/giantswarm/csi-external-snapshotter-app/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/giantswarm/csi-external-snapshotter-app/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/giantswarm/csi-external-snapshotter-app/releases/tag/v0.1.0
