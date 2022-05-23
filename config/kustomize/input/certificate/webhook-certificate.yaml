@@ -1,0 +1,11 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: snapshot-webhook
+spec:
+  secretName: snapshot-validation-secret
+  dnsNames:
+  - snapshot-validation-service.{{ .Release.Namespace }}.svc.cluster.local
+  - snapshot-validation-service.{{ .Release.Namespace }}.svc
+  issuerRef:
+    name: snapshot-webhook-issuer

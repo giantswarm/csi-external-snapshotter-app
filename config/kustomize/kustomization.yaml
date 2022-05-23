@@ -1,0 +1,29 @@
+namespace: "{{ .Release.Namespace }}"
+
+resources:
+  # from upstream
+  - input/crd
+  - input/snapshot-controller
+  - input/webhook-example/admission-configuration-template
+  - input/webhook-example/webhook.yaml
+  # our ones
+  - input/certificate/webhook-issuer.yaml
+  - input/certificate/webhook-certificate.yaml
+
+images:
+  - name: gcr.io/k8s-staging-sig-storage/snapshot-controller:v5.0.0
+    newName: "{{.Values.snapshotController.image}}"
+    newTag: "{{.Values.snapshotController.tag}}"
+  - name: k8s.gcr.io/sig-storage/snapshot-validation-webhook:v5.0.0
+    newName: "{{.Values.validationWebhook.image}}"
+    newTag: "{{.Values.validationWebhook.tag}}"
+
+patches:
+- path: patches/webhook-configuration.yaml
+  target:
+    kind: ValidatingWebhookConfiguration
+    name: validation-webhook.snapshot.storage.k8s.io
+- path: patches/webhook-deployment.yaml
+  target:
+    kind: Deployment
+    name: snapshot-validation-deployment

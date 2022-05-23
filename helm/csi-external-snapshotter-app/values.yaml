@@ -14,4 +14,8 @@ dockerKubectl:
 
 snapshotController:
   image: k8s.gcr.io/sig-storage/snapshot-controller
-  tag: v4.0.0
+  tag: v5.0.1
+
+validationWebhook:
+  image: k8s.gcr.io/sig-storage/snapshot-validation-webhook
+  tag: v5.0.1

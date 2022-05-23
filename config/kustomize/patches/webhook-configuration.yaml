@@ -1,0 +1,13 @@
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingWebhookConfiguration
+metadata:
+  name: validation-webhook.snapshot.storage.k8s.io
+  annotations:
+    cert-manager.io/inject-ca-from: "{{ .Release.Namespace }}/snapshot-webhook"
+webhooks:
+- clientConfig:
+    caBundle: ""
+    service:
+      port: 443
+  name: validation-webhook.snapshot.storage.k8s.io
+  failurePolicy: Fail
