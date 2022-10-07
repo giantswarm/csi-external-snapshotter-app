@@ -24,4 +24,4 @@ apply-kustomize-patches: ## apply giantswarm specific patches
 #.PHONY: delete-generated-helm-charts
 delete-generated-helm-charts: # clean workspace and delete manifests
 	@rm -rvf ./helm/${APPLICATION}/templates/*.yaml
-	@rm -rvf ./helm/${APPLICATION}/crds/*.yaml
+	@rm -rvf ./helm/${APPLICATION}/files/*.yaml
