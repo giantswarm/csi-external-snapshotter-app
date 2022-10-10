@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Changed
-- Fix `crd-install` job by using right folder name and adding toleration for uninitialized taint.
+- Fix `crd-install` job by using right folder name.
 
 ## [0.2.0] - 2022-05-23
 
