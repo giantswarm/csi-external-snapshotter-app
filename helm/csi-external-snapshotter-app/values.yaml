@@ -19,3 +19,9 @@ snapshotController:
 validationWebhook:
   image: k8s.gcr.io/sig-storage/snapshot-validation-webhook
   tag: v5.0.1
+
+defaults:
+  volumesnapshotclass:
+    create: false
+    name: ""
+    driver: ""
