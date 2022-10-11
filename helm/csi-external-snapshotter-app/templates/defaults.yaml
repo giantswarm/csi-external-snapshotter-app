@@ -1,0 +1,11 @@
+{{- if .Values.defaults.volumesnapshotclass.create }}
+apiVersion: snapshot.storage.k8s.io/v1
+kind: VolumeSnapshotClass
+metadata:
+  name: {{ .Values.defaults.volumesnapshotclass.name }}
+  annotations:
+    snapshot.storage.kubernetes.io/is-default-class: "true"
+    helm.sh/hook: post-install, post-upgrade
+driver: {{ .Values.defaults.volumesnapshotclass.driver }}
+deletionPolicy: Delete
+{{- end }}
