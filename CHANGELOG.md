@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - Fix `crd-install` job by using right folder name.
+- Add new configuration interface to create default `VolumeSnapshotClass`.
 
 ## [0.2.0] - 2022-05-23
 
