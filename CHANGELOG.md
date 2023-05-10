@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Add toleration for new control-plane taint.
+
 ## [0.3.0] - 2022-10-11
 
 ### Changed
