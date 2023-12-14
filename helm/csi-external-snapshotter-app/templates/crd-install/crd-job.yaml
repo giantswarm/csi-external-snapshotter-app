@@ -10,14 +10,14 @@ metadata:
     {{- include "crdInstallAnnotations" . | nindent 4 }}
   labels:
     app.kubernetes.io/component: {{ include "crdInstall" . | quote }}
-    {{- include "labels.selector" . | nindent 4 }}
+    {{- include "labels.common" . | nindent 4 }}
     role: {{ include "crdInstallSelector" . | quote }}
 spec:
   template:
     metadata:
       labels:
         app.kubernetes.io/component: {{ include "crdInstall" . | quote }}
-        {{- include "labels.selector" . | nindent 8 }}
+        {{- include "labels.common" . | nindent 8 }}
     spec:
       serviceAccountName: {{ include "crdInstall" . }}
       securityContext:
