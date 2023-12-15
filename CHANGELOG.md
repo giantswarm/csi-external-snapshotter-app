@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Add team label in resources.
 - Add toleration for new control-plane taint.
 
 ### Changed
