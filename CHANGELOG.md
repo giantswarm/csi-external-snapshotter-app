@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Add team label in resources.
 - Add toleration for new control-plane taint.
+- Add VPA for `snapshot-controller` and `snapshot-validation-deployment` Deployments.
 
 ### Changed
 
@@ -18,17 +19,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.3.0] - 2022-10-11
 
-### Changed
+### Changed
 - Fix `crd-install` job by using right folder name.
 - Add new configuration interface to create default `VolumeSnapshotClass`.
 
 ## [0.2.0] - 2022-05-23
 
-### Added
+### Added
 
 - Add validating webhook.
   
-### Changed
+### Changed
 
 - Update manifests with upstream `v5.0.1`.
 - Use `kustomize` for templating upstream manifests without manual editing.
