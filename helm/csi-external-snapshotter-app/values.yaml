@@ -25,3 +25,16 @@ defaults:
     create: false
     name: ""
     driver: ""
+
+verticalPodAutoscaler:
+  enabled: true
+  snapshotController:
+    containerPolicies:
+      - containerName: snapshot-controller
+        controlledValues: RequestsAndLimits
+        mode: Auto
+  validationWebhook:
+    containerPolicies:
+      - containerName: snapshot-validation
+        controlledValues: RequestsAndLimits
+        mode: Auto
