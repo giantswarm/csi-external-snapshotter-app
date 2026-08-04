@@ -15,6 +15,13 @@ dockerKubectl:
 snapshotController:
   image: registry.k8s.io/sig-storage/snapshot-controller
   tag: v8.6.0
+  resources:
+    requests:
+      memory: "64Mi"
+      cpu: "10m"
+    limits:
+      memory: "256Mi"
+      cpu: "200m"
 
 defaults:
   volumesnapshotclass:

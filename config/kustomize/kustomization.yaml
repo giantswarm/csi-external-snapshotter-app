@@ -11,3 +11,9 @@ images:
   - name: registry.k8s.io/sig-storage/snapshot-controller
     newName: "{{.Values.snapshotController.image}}"
     newTag: "{{.Values.snapshotController.tag}}"
+
+patches:
+  - path: patches/snapshot-controller-deployment.yaml
+    target:
+      kind: Deployment
+      name: snapshot-controller

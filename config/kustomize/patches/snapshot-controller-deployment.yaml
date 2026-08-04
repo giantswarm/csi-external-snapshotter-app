@@ -1,0 +1,51 @@
+# Giant Swarm hardening on top of the upstream snapshot-controller Deployment.
+# Upstream ships no resources, securityContext or anti-affinity, all of which
+# kube-linter flags during the app-build-suite run.
+#
+# Only the resource quantities are wired to values: they are YAML strings, so a
+# '{{ ... }}' scalar survives kustomize and renders correctly. The
+# securityContext booleans and uids cannot be templated the same way, since a
+# quoted template renders to a string where Kubernetes wants a bool or an int.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: snapshot-controller
+spec:
+  template:
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
+      affinity:
+        podAntiAffinity:
+          # Soft, so the chart still installs on single node clusters.
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                topologyKey: kubernetes.io/hostname
+                labelSelector:
+                  matchLabels:
+                    app.kubernetes.io/name: snapshot-controller
+      containers:
+        - name: snapshot-controller
+          # The image is built from distroless/static and only talks to the API
+          # server, so it needs neither a writable root nor a specific uid.
+          securityContext:
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 65532
+            runAsGroup: 65532
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            seccompProfile:
+              type: RuntimeDefault
+          resources:
+            requests:
+              cpu: '{{ .Values.snapshotController.resources.requests.cpu }}'
+              memory: '{{ .Values.snapshotController.resources.requests.memory }}'
+            limits:
+              cpu: '{{ .Values.snapshotController.resources.limits.cpu }}'
+              memory: '{{ .Values.snapshotController.resources.limits.memory }}'

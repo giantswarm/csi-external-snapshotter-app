@@ -13,6 +13,9 @@ metadata:
     {{- include "labels.common" . | nindent 4 }}
     role: {{ include "crdInstallSelector" . | quote }}
 spec:
+  # Helm's hook-delete-policy already removes the job, this is a backstop for
+  # the case where the release is deleted before the hook is cleaned up.
+  ttlSecondsAfterFinished: 600
   template:
     metadata:
       labels:

@@ -19,6 +19,15 @@ spec:
       labels:
         app.kubernetes.io/name: snapshot-controller
     spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - podAffinityTerm:
+              labelSelector:
+                matchLabels:
+                  app.kubernetes.io/name: snapshot-controller
+              topologyKey: kubernetes.io/hostname
+            weight: 100
       containers:
       - args:
         - --v=5
@@ -26,4 +35,26 @@ spec:
         image: '{{.Values.snapshotController.image}}:{{.Values.snapshotController.tag}}'
         imagePullPolicy: IfNotPresent
         name: snapshot-controller
+        resources:
+          limits:
+            cpu: '{{ .Values.snapshotController.resources.limits.cpu }}'
+            memory: '{{ .Values.snapshotController.resources.limits.memory }}'
+          requests:
+            cpu: '{{ .Values.snapshotController.resources.requests.cpu }}'
+            memory: '{{ .Values.snapshotController.resources.requests.memory }}'
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+          readOnlyRootFilesystem: true
+          runAsGroup: 65532
+          runAsNonRoot: true
+          runAsUser: 65532
+          seccompProfile:
+            type: RuntimeDefault
+      securityContext:
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
       serviceAccountName: snapshot-controller

@@ -16,6 +16,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add `seccompProfile`, `runAsNonRoot`, dropped capabilities and
   `allowPrivilegeEscalation: false` to the `crd-install` job, replacing the removed
   PodSecurityPolicy.
+- Add resource requests and limits for `snapshot-controller`, configurable via
+  `snapshotController.resources`.
+- Add a pod and container `securityContext` to `snapshot-controller` (`runAsNonRoot`,
+  uid/gid 65532, read-only root filesystem, dropped capabilities, `RuntimeDefault`
+  seccomp profile), and soft pod anti-affinity across nodes for its two replicas.
+- Add `ttlSecondsAfterFinished` to the `crd-install` job.
 
 ### Changed
 
