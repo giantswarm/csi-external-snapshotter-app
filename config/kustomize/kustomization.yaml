@@ -4,26 +4,10 @@ resources:
   # from upstream
   - input/crd
   - input/snapshot-controller
-  - input/webhook-example/admission-configuration-template
-  - input/webhook-example/webhook.yaml
-  # our ones
-  - input/certificate/webhook-issuer.yaml
-  - input/certificate/webhook-certificate.yaml
 
 images:
-  - name: registry.k8s.io/sig-storage/snapshot-controller:v5.0.0
+  # Matched by image name only, upstream does not always bump the tag in the
+  # manifests together with the release.
+  - name: registry.k8s.io/sig-storage/snapshot-controller
     newName: "{{.Values.snapshotController.image}}"
     newTag: "{{.Values.snapshotController.tag}}"
-  - name: registry.k8s.io/sig-storage/snapshot-validation-webhook:v5.0.0
-    newName: "{{.Values.validationWebhook.image}}"
-    newTag: "{{.Values.validationWebhook.tag}}"
-
-patches:
-- path: patches/webhook-configuration.yaml
-  target:
-    kind: ValidatingWebhookConfiguration
-    name: validation-webhook.snapshot.storage.k8s.io
-- path: patches/webhook-deployment.yaml
-  target:
-    kind: Deployment
-    name: snapshot-validation-deployment

@@ -21,8 +21,11 @@ spec:
     spec:
       serviceAccountName: {{ include "crdInstall" . }}
       securityContext:
+        runAsNonRoot: true
         runAsUser: 1000
         runAsGroup: 2000
+        seccompProfile:
+          type: RuntimeDefault
       tolerations:
       - key: node-role.kubernetes.io/master
         effect: NoSchedule
@@ -43,6 +46,10 @@ spec:
           kubectl apply -f /data/ 2>&1
         securityContext:
           readOnlyRootFilesystem: true
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
         volumeMounts:
 {{- range $path, $_ := .Files.Glob "files/**" }}
         - name: {{ $path | base | trimSuffix ".yaml" }}

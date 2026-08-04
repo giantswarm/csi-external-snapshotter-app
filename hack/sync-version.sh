@@ -5,22 +5,22 @@ set -euox pipefail
 cd "$(dirname "${0}")"
 SYNC_BRANCH=${1:-"master"}
 
-# create a temporary directory and checkout CAPO there
+INPUT_DIR="../config/kustomize/input"
+
+# create a temporary directory and check out external-snapshotter there
 TMPDIR=$(mktemp -d)
-pushd "${TMPDIR}"
+git clone --depth 1 --branch "${SYNC_BRANCH}" \
+	https://github.com/kubernetes-csi/external-snapshotter.git \
+	"${TMPDIR}/external-snapshotter"
 
-git clone https://github.com/kubernetes-csi/external-snapshotter.git
-pushd external-snapshotter
-
-git checkout -d "${SYNC_BRANCH}"
-
-# cd to tmpdir
-popd
-
-# cd to original path
-popd
+# drop anything left over from a previous sync, otherwise manifests that were
+# removed upstream keep being rendered into the chart
+for dir in "${INPUT_DIR}"/crd "${INPUT_DIR}"/snapshot-controller; do
+	find "${dir}" -mindepth 1 ! -name ".gitignore" -delete
+done
 
 # copy upstream generated release-manifests into origin
-cp -v -r "${TMPDIR}/external-snapshotter/client/config/crd" "../config/kustomize/input/"
-cp -v -r "${TMPDIR}/external-snapshotter/deploy/kubernetes/snapshot-controller/" "../config/kustomize/input/"
-cp -v -r "${TMPDIR}/external-snapshotter/deploy/kubernetes/webhook-example/" "../config/kustomize/input/"
+cp -v -r "${TMPDIR}/external-snapshotter/client/config/crd" "${INPUT_DIR}/"
+cp -v -r "${TMPDIR}/external-snapshotter/deploy/kubernetes/snapshot-controller/" "${INPUT_DIR}/"
+
+rm -rf "${TMPDIR}"

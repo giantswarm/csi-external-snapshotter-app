@@ -4,11 +4,11 @@ metadata:
   name: snapshot-controller
   namespace: '{{ .Release.Namespace }}'
 spec:
-  minReadySeconds: 15
+  minReadySeconds: 35
   replicas: 2
   selector:
     matchLabels:
-      app: snapshot-controller
+      app.kubernetes.io/name: snapshot-controller
   strategy:
     rollingUpdate:
       maxSurge: 0
@@ -17,7 +17,7 @@ spec:
   template:
     metadata:
       labels:
-        app: snapshot-controller
+        app.kubernetes.io/name: snapshot-controller
     spec:
       containers:
       - args:
@@ -26,4 +26,4 @@ spec:
         image: '{{.Values.snapshotController.image}}:{{.Values.snapshotController.tag}}'
         imagePullPolicy: IfNotPresent
         name: snapshot-controller
-      serviceAccount: snapshot-controller
+      serviceAccountName: snapshot-controller

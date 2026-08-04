@@ -2,7 +2,7 @@
 
 SHELL := /bin/bash
 
-EXTERNAL_SNAPSHOTTER_VERSION="v5.0.1"
+EXTERNAL_SNAPSHOTTER_VERSION="v8.6.0"
 
 .PHONY: all
 all: fetch-upstream-manifest apply-kustomize-patches delete-generated-helm-charts release-manifests ## Builds the manifests to publish with a release (alias to release-manifests)

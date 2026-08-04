@@ -10,15 +10,11 @@ crds:
 
 dockerKubectl:
   image: quay.io/giantswarm/docker-kubectl
-  tag: "1.23.6"
+  tag: "1.33.4"
 
 snapshotController:
   image: registry.k8s.io/sig-storage/snapshot-controller
-  tag: v5.0.1
-
-validationWebhook:
-  image: registry.k8s.io/sig-storage/snapshot-validation-webhook
-  tag: v5.0.1
+  tag: v8.6.0
 
 defaults:
   volumesnapshotclass:

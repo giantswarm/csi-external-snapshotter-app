@@ -59,7 +59,7 @@
         "dockerKubectl": {
             "type": "object",
             "properties": {
-                "registry": {
+                "image": {
                     "type": "string"
                 },
                 "tag": {
@@ -77,23 +77,11 @@
                     "type": "string"
                 }
             }
-        },
-        "validationWebhook": {
-            "type": "object",
-            "properties": {
-                "image": {
-                    "type": "string"
-                },
-                "tag": {
-                    "type": "string"
-                }
-            }
         }
     },
     "required": [
         "crds",
         "dockerKubectl",
-        "snapshotController",
-        "validationWebhook"
+        "snapshotController"
     ]
 }
