@@ -1,17 +1,17 @@
 version: 2.1
 orbs:
-  architect: giantswarm/architect@5.1.1
+  architect: giantswarm/architect@9.6.0
 
 workflows:
   package-and-push-chart-on-tag:
     jobs:
       - architect/push-to-app-catalog:
-          context: architect
-          executor: app-build-suite
-          name: push-to-giantswarm-app-catalog
-          app_catalog: giantswarm-catalog
-          app_catalog_test: giantswarm-test-catalog
-          chart: csi-external-snapshotter-app
+          context: "architect"
+          executor: "app-build-suite"
+          name: "push-to-giantswarm-app-catalog"
+          app_catalog: "giantswarm-catalog"
+          app_catalog_test: "giantswarm-test-catalog"
+          chart: "csi-external-snapshotter-app"
           # Trigger job on git tag.
           filters:
             tags:
