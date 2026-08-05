@@ -23,6 +23,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   seccomp profile), and soft pod anti-affinity across nodes for its two replicas.
 - Add `ttlSecondsAfterFinished` to the `crd-install` job.
 
+### Fixed
+
+- Fix the `crd-install` job hanging on Cilium clusters. Its NetworkPolicy restricted egress to
+  the private CIDR ranges, but Cilium only matches an in-cluster node identity with a CIDR rule
+  when `policy-cidr-match-mode` includes `nodes`, which is not the default. Since the API server
+  backend is a control plane node, `kubectl apply` never connected and the Helm pre-install hook
+  timed out. Egress is now restricted by port only.
+
 ### Changed
 
 - Change registry to `registry.k8s.io`.

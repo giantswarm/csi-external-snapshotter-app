@@ -17,7 +17,17 @@ spec:
     matchLabels:
       app.kubernetes.io/component: {{ include "crdInstall" . | quote }}
       {{- include "labels.selector" . | nindent 6 }}
-  # allow egress traffic to the Kubernetes API
+  # Allow egress to the Kubernetes API, which is all this job needs: it runs
+  # `kubectl apply` against the in-cluster endpoint and resolves nothing, since
+  # in-cluster config addresses the API by IP from KUBERNETES_SERVICE_HOST.
+  #
+  # Restricted by port but deliberately not by destination. The `to:` selector
+  # used to list the private CIDR ranges, which silently broke the job on Cilium
+  # clusters: Cilium only matches an in-cluster node identity with a CIDR rule
+  # when policy-cidr-match-mode includes "nodes", which is not the default, and
+  # the API server backend is a control plane node. `kubectl apply` hung until
+  # the Helm hook timed out. Pinning the node IP would fail for the same reason,
+  # so an L4-only rule is the tightest a plain NetworkPolicy can express here.
   egress:
   - ports:
     - port: 443
@@ -25,11 +35,6 @@ spec:
     # legacy port kept for compatibility
     - port: 6443
       protocol: TCP
-    to:
-    {{- range tuple "10.0.0.0/8" "172.16.0.0/12" "192.168.0.0/16" "100.64.0.0/10" }}
-    - ipBlock:
-        cidr: {{ . }}
-    {{- end }}
   # deny ingress traffic
   ingress: []
   policyTypes:
