@@ -2,7 +2,7 @@ apiVersion: v2
 # upstream version
 appVersion: v8.6.0
 # giantswarm app version
-version: 0.3.0
+version: 0.4.0
 name: csi-external-snapshotter-app
 description: CSI external snapshotter which deploys CRDs and controllers
 home: https://github.com/giantswarm/csi-external-snapshotter-app
