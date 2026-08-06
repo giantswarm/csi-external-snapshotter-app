@@ -13,9 +13,9 @@
 #   kubectl -n org-demo get secret democluster-kubeconfig
 #   kubectl -n org-demo get helmrepository democluster-giantswarm
 #
-# Pinned to the dev build from PR #56 (commit f666cd1) in
-# giantswarm-test-catalog. Once v0.4.0 is released, drop the HelmRepository
-# below and change the HelmRelease to:
+# Pinned to a dev build in giantswarm-test-catalog -- update `version:` below to
+# whichever `0.3.1-dev.*` tag the current PR pushed. Once v0.4.0 is released,
+# drop the HelmRepository below and change the HelmRelease to:
 #
 #     version: 0.4.0
 #     sourceRef:
@@ -52,8 +52,9 @@ data:
   # Read by Flux from this namespace on the management cluster, not from the
   # workload cluster.
   values: |
-    # CRDs are applied by a pre-install/pre-upgrade hook job rather than by
-    # Helm, so they survive deletion of the release.
+    # CRDs ship as the csi-external-snapshotter-crds dependency chart, annotated
+    # helm.sh/resource-policy: keep, so Helm upgrades them but leaves them in
+    # place when the release is deleted.
     crds:
       install: true
     # Velero needs a VolumeSnapshotClass for the driver it snapshots through.

@@ -1,1 +1,4 @@
 .vscode
+
+# upstream manifests fetched by `vendir sync`, reproducible from vendir.lock.yml
+/vendor/

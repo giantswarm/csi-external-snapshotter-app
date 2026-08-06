@@ -1,0 +1,4 @@
+apiVersion: v2
+name: csi-external-snapshotter-crds
+description: Snapshot CRDs installed by csi-external-snapshotter-app
+version: 8.6.0

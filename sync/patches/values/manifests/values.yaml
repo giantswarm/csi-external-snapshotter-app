@@ -26,7 +26,7 @@ dockerKubectl:
 snapshotController:
   image: registry.k8s.io/sig-storage/snapshot-controller
   # kept in sync with the upstream ref in vendir.yml by `make sync`
-  tag: v8.6.0
+  tag: IMAGE_TAG
   resources:
     requests:
       memory: "64Mi"

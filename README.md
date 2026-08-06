@@ -10,24 +10,54 @@ The chart is generated from the upstream
 [kubernetes-csi/external-snapshotter](https://github.com/kubernetes-csi/external-snapshotter)
 release manifests:
 
-- https://github.com/kubernetes-csi/external-snapshotter/tree/v8.6.0/client/config/crd
-- https://github.com/kubernetes-csi/external-snapshotter/tree/v8.6.0/deploy/kubernetes/snapshot-controller
+- `client/config/crd` → the `csi-external-snapshotter-crds` dependency chart
+- `deploy/kubernetes/snapshot-controller` → the chart's top-level templates
+
+## Layout
+
+| Path | What it is |
+| --- | --- |
+| `vendir.yml` | The **only** place the upstream version is pinned. `vendir.lock.yml` records the resolved commit. |
+| `sync/sync.sh` | Runs `vendir sync`, then each patch script in order. |
+| `sync/kustomize/` | Overlay that turns the upstream snapshot-controller manifests into Helm templates — it injects `{{ .Release.Namespace }}` and the `{{ .Values.snapshotController.* }}` references, applies the Giant Swarm securityContext/affinity/resources patch, and splits the upstream files into one template per resource. |
+| `sync/patches/*/` | One directory per concern (`chart`, `values`, `controller`, `templates`, `crds`). `manifests/` inside each holds the hand-written source of truth. |
+| `helm/csi-external-snapshotter-app/` | **Generated.** Do not edit by hand — `make sync` overwrites it. |
+
+Everything hand-written lives under `sync/patches/templates/manifests/`: `_helpers.tpl`,
+`gs/defaults.yaml`, `gs/network-policies/` and `crd-adopt/`. Generated files sit at the top level of
+`templates/`, which is why the hand-written ones are kept in subdirectories.
+
+## CRDs
+
+The CRDs ship as the `csi-external-snapshotter-crds` dependency chart, as ordinary templates rather
+than in a `crds/` directory, so Helm renders, diffs and **upgrades** them like any other resource.
+They carry `helm.sh/resource-policy: keep`, so `helm uninstall` leaves them (and therefore every
+`VolumeSnapshot` in the cluster) in place. `crds.install: false` disables the dependency via its
+`condition`.
+
+Chart versions up to 0.3.x applied the CRDs with a `kubectl apply` hook job instead, which left them
+without Helm ownership metadata. The `crd-adopt` pre-install/pre-upgrade hook hands that ownership
+over on the first upgrade; it is a no-op on a fresh install, and can be dropped once every cluster
+has been through a 0.4.0 or later release.
 
 ## Upgrading to a new upstream release
 
-1. Bump `EXTERNAL_SNAPSHOTTER_VERSION` in [`Makefile.custom.mk`](Makefile.custom.mk).
+Requires `vendir`, `kustomize` and `yq` on `$PATH`.
+
+1. Bump `ref` under `directories[0].contents[0].git` in [`vendir.yml`](vendir.yml).
 2. Regenerate the chart:
 
    ```sh
-   make all APPLICATION=csi-external-snapshotter-app
+   make sync
    ```
 
-   This clones the upstream repo at that tag into `config/kustomize/input/`, runs the
-   Giant Swarm `kustomize` overlay in `config/kustomize/`, and writes the result into
-   `helm/csi-external-snapshotter-app/` — CRDs go to `files/` (applied by the `crd-install`
-   hook job), everything else to `templates/`.
-3. Bump `snapshotController.tag` in `values.yaml` and `appVersion` in `Chart.yaml` to the
-   same version, review the diff, and add a `CHANGELOG.md` entry.
+   This resolves and vendors upstream into `vendor/` (gitignored), then rewrites
+   `helm/csi-external-snapshotter-app/`. `appVersion`, the
+   `io.giantswarm.application.upstream-chart-version` annotation and
+   `snapshotController.tag` are all derived from the `ref` — there is nothing else to bump. The CRD
+   dependency chart's version is bumped to the upstream version only when the CRDs actually changed.
+3. Review `git diff helm/` (the sync prints it) and add a `CHANGELOG.md` entry.
 
-Anything hand-written lives in `templates/crd-install/`, `templates/defaults.yaml` and
-`templates/_helpers.tpl`; those files are not touched by the generator.
+The chart's own `version` is left alone by the sync and is replaced at build time anyway
+(`replace-chart-version-with-git` in [`.abs/main.yaml`](.abs/main.yaml)); the committed value only
+needs to be valid semver so that `helm lint` and `helm template` work locally.

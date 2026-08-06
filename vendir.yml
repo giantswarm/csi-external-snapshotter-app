@@ -1,0 +1,17 @@
+apiVersion: vendir.k14s.io/v1alpha1
+kind: Config
+directories:
+  # Upstream external-snapshotter release manifests. This is the single place
+  # the upstream version is pinned: bump `ref` and run `make sync`, everything
+  # else (Chart.yaml appVersion, the controller image tag, the CRDs) is derived
+  # from it.
+  - path: vendor
+    contents:
+      - path: external-snapshotter
+        git:
+          depth: 1
+          url: https://github.com/kubernetes-csi/external-snapshotter
+          ref: "v8.6.0"
+        includePaths:
+          - client/config/crd/**/*
+          - deploy/kubernetes/snapshot-controller/**/*
