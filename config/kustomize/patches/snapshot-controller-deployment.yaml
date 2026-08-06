@@ -1,11 +1,3 @@
-# Giant Swarm hardening on top of the upstream snapshot-controller Deployment.
-# Upstream ships no resources, securityContext or anti-affinity, all of which
-# kube-linter flags during the app-build-suite run.
-#
-# Only the resource quantities are wired to values: they are YAML strings, so a
-# '{{ ... }}' scalar survives kustomize and renders correctly. The
-# securityContext booleans and uids cannot be templated the same way, since a
-# quoted template renders to a string where Kubernetes wants a bool or an int.
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -19,7 +11,6 @@ spec:
           type: RuntimeDefault
       affinity:
         podAntiAffinity:
-          # Soft, so the chart still installs on single node clusters.
           preferredDuringSchedulingIgnoredDuringExecution:
             - weight: 100
               podAffinityTerm:
@@ -29,8 +20,6 @@ spec:
                     app.kubernetes.io/name: snapshot-controller
       containers:
         - name: snapshot-controller
-          # The image is built from distroless/static and only talks to the API
-          # server, so it needs neither a writable root nor a specific uid.
           securityContext:
             readOnlyRootFilesystem: true
             runAsNonRoot: true
