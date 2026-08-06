@@ -1,0 +1,18 @@
+namespace: "{{ .Release.Namespace }}"
+
+resources:
+  # vendored by `vendir sync`, pinned in vendir.yml
+  - ../../vendor/external-snapshotter/deploy/kubernetes/snapshot-controller
+
+images:
+  # Matched by image name only, upstream does not always bump the tag in the
+  # manifests together with the release.
+  - name: registry.k8s.io/sig-storage/snapshot-controller
+    newName: "{{.Values.snapshotController.image}}"
+    newTag: "{{.Values.snapshotController.tag}}"
+
+patches:
+  - path: patches/snapshot-controller-deployment.yaml
+    target:
+      kind: Deployment
+      name: snapshot-controller

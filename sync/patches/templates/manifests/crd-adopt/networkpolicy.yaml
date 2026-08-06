@@ -1,0 +1,43 @@
+{{- if eq (include "crdAdoptEnabled" .) "true" }}
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: {{ include "crdAdopt" . }}
+  namespace: {{ .Release.Namespace | quote }}
+  annotations:
+    # create hook dependencies in the right order
+    "helm.sh/hook-weight": "-7"
+    {{- include "crdAdoptAnnotations" . | nindent 4 }}
+  labels:
+    app.kubernetes.io/component: {{ include "crdAdopt" . | quote }}
+    {{- include "labels.common" . | nindent 4 }}
+    role: {{ include "crdAdoptSelector" . | quote }}
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/component: {{ include "crdAdopt" . | quote }}
+      {{- include "labels.selector" . | nindent 6 }}
+  # Allow egress to the Kubernetes API, which is all this job needs: it runs
+  # kubectl against the in-cluster endpoint and resolves nothing, since
+  # in-cluster config addresses the API by IP from KUBERNETES_SERVICE_HOST.
+  #
+  # Restricted by port but deliberately not by destination. The `to:` selector
+  # used to list the private CIDR ranges, which silently broke the job on Cilium
+  # clusters: Cilium only matches an in-cluster node identity with a CIDR rule
+  # when policy-cidr-match-mode includes "nodes", which is not the default, and
+  # the API server backend is a control plane node. `kubectl` hung until the Helm
+  # hook timed out. Pinning the node IP would fail for the same reason, so an
+  # L4-only rule is the tightest a plain NetworkPolicy can express here.
+  egress:
+  - ports:
+    - port: 443
+      protocol: TCP
+    # legacy port kept for compatibility
+    - port: 6443
+      protocol: TCP
+  # deny ingress traffic
+  ingress: []
+  policyTypes:
+  - Egress
+  - Ingress
+{{- end }}

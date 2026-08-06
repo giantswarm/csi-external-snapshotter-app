@@ -1,8 +1,8 @@
 apiVersion: v2
 # upstream version
-appVersion: v8.6.0
+appVersion: APP_VERSION_PLACEHOLDER
 # giantswarm app version
-version: 0.3.0
+version: CHART_VERSION_PLACEHOLDER
 name: csi-external-snapshotter-app
 description: CSI external snapshotter which deploys CRDs and controllers
 home: https://github.com/giantswarm/csi-external-snapshotter-app
@@ -10,10 +10,10 @@ icon: https://s.giantswarm.io/app-icons/csi/1/dark.svg
 annotations:
   application.giantswarm.io/team: rocket
   io.giantswarm.application.upstream-chart-url: "https://github.com/kubernetes-csi/external-snapshotter"
-  io.giantswarm.application.upstream-chart-version: "v8.6.0"
+  io.giantswarm.application.upstream-chart-version: "APP_VERSION_PLACEHOLDER"
 dependencies:
   - name: csi-external-snapshotter-crds
-    version: 8.6.0
+    version: CRD_VERSION_PLACEHOLDER
     condition: crds.install
 sources:
   - https://github.com/giantswarm/csi-external-snapshotter-app
