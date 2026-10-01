@@ -20,11 +20,11 @@ crds:
         cpu: "500m"
 
 dockerKubectl:
-  image: quay.io/giantswarm/docker-kubectl
+  image: pull gsoci.azurecr.io/giantswarm/docker-kubectl
   tag: "1.33.4"
 
 snapshotController:
-  image: registry.k8s.io/sig-storage/snapshot-controller
+  image: gsoci.azurecr.io/giantswarm/snapshot-controller
   # kept in sync with the upstream ref in vendir.yml by `make sync`
   tag: IMAGE_TAG
   resources:
