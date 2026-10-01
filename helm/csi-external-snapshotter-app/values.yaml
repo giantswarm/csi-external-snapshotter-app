@@ -20,7 +20,7 @@ crds:
         cpu: "500m"
 
 dockerKubectl:
-  image: pull gsoci.azurecr.io/giantswarm/docker-kubectl
+  image: gsoci.azurecr.io/giantswarm/docker-kubectl
   tag: "1.33.4"
 
 snapshotController:
