@@ -11,6 +11,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - The `helm.sh/chart` label is valid for long chart versions: the 63-character cut trims the whole trailing run of `-`, `.` and `_`.
 
+### Changed
+
+- Update architect to v10.11.1 (giantswarm/csi-external-snapshotter-app#64)
+- Update architect to v10.12.1 (giantswarm/csi-external-snapshotter-app#68)
+
 ## [0.4.1] - 2026-10-01
 
 ### Changed
