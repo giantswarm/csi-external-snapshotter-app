@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Update architect to v10.12.2 (giantswarm/csi-external-snapshotter-app#71)
+- Add Github action to create an issue in `giantswarm/giantswarm` for Team Rocket on vendir updates.
 
 ## [0.4.2] - 2026-10-05
 
