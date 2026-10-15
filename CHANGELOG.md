@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Update architect to v10.13.0 (giantswarm/csi-external-snapshotter-app#75)
 - Update architect to v10.13.2 (giantswarm/csi-external-snapshotter-app#76)
 - Update architect to v10.13.4 (giantswarm/csi-external-snapshotter-app#81)
+- chore(deps): update vendir https://github.com/kubernetes-csi/external-snapshotter to v8.7.0
 
 ## [0.4.2] - 2026-10-05
 
