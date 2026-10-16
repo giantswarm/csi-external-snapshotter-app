@@ -26,12 +26,12 @@ vendir sync
 ./sync/patches/values/patch.sh
 ./sync/patches/controller/patch.sh
 ./sync/patches/templates/patch.sh
+./sync/patches/chart-label/patch.sh
 
 # crds should always be last: it resolves CRD_VERSION_PLACEHOLDER in the chart's
 # Chart.yaml, which the chart patch has to have written first, and it detects
 # CRD changes by diffing the working tree against HEAD.
 ./sync/patches/crds/patch.sh
-./sync/patches/chart-label/patch.sh
 
 if ! git diff --quiet --exit-code helm/ ; then
 	echo -e "\n---------- PRINTING GIT DIFF ----------\n"
