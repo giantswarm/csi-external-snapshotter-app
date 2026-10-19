@@ -26,7 +26,7 @@ dockerKubectl:
 snapshotController:
   image: gsoci.azurecr.io/giantswarm/snapshot-controller
   # kept in sync with the upstream ref in vendir.yml by `make sync`
-  tag: v8.6.0
+  tag: v8.7.0
   resources:
     requests:
       memory: "64Mi"

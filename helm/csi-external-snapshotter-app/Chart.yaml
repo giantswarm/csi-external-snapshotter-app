@@ -1,6 +1,6 @@
 apiVersion: v2
 # upstream version
-appVersion: v8.6.0
+appVersion: v8.7.0
 # giantswarm app version
 version: 0.4.2
 name: csi-external-snapshotter-app
@@ -10,7 +10,7 @@ icon: https://s.giantswarm.io/app-icons/csi/1/dark.svg
 annotations:
   application.giantswarm.io/team: rocket
   io.giantswarm.application.upstream-chart-url: "https://github.com/kubernetes-csi/external-snapshotter"
-  io.giantswarm.application.upstream-chart-version: "v8.6.0"
+  io.giantswarm.application.upstream-chart-version: "v8.7.0"
 dependencies:
   - name: csi-external-snapshotter-crds
     version: 8.6.0
