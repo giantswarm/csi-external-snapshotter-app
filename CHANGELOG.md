@@ -23,6 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Update architect to v10.16.3 (giantswarm/csi-external-snapshotter-app#98)
 - Update architect to v10.16.5 (giantswarm/csi-external-snapshotter-app#100)
 - Update architect to v10.16.7 (giantswarm/csi-external-snapshotter-app#103)
+- Update architect to v10.17.2 (giantswarm/csi-external-snapshotter-app#107)
 
 ## [0.4.2] - 2026-10-05
 
